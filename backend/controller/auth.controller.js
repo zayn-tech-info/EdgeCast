@@ -4,8 +4,9 @@ const jwt = require("jsonwebtoken");
 
 const nonces = {};
 
-//  Get nonce
 
+
+//  Get nonce
 const nonce = async (req, res) => {
   const { address } = req.params;
   const nonce = Math.floor(Math.random() * 1e6).toString();
