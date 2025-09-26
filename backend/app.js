@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const connectTODB = require("./lib/db");
 
 const authRouter = require("./routes/auth.route");
 
@@ -10,7 +9,6 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/auth/", authRouter);
-connectTODB();
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
 

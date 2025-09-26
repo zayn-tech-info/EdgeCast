@@ -10,3 +10,5 @@ const route = express.Router();
 route.get("/nonce/:address", nonce);
 route.post("/verify", verifyNonce);
 route.get("/protected", protectRoute);
+
+module.exports = route;
