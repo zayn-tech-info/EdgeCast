@@ -1,5 +1,10 @@
 # Node.js backend .gitignore
 
+.env
+.env*
+.env.local*
+.env.local
+
 # Logs
 logs
 *.log
