@@ -16,7 +16,10 @@ async function start() {
     } else {
       console.log("MONGODB_URI not set - dashboard persistence disabled");
     }
-    if (process.env.PREDICTIONGAME_ADDRESS) {
+    // Skip indexer in serverless (Vercel)
+    if (process.env.VERCEL) {
+      console.log("Running on Vercel - indexer disabled");
+    } else if (process.env.PREDICTIONGAME_ADDRESS) {
       await initIndexer();
       console.log("Event indexer started");
     } else {

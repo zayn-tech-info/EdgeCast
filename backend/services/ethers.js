@@ -13,7 +13,7 @@ function getWallet(provider) {
   return new ethers.Wallet(pk, provider);
 }
 
-function getAbi() {
+function getArtifact() {
   // Prefer workspace artifact if available, else require a copied ABI file path
   const artifactPath = path.join(
     __dirname,
@@ -41,7 +41,7 @@ function getAbi() {
     try {
       if (fs.existsSync(p)) {
         const json = JSON.parse(fs.readFileSync(p, "utf8"));
-        return json.abi;
+        return json;
       }
     } catch (_) {}
   }
@@ -49,7 +49,7 @@ function getAbi() {
   if (process.env.PREDICTIONGAME_ABI_JSON) {
     try {
       const parsed = JSON.parse(process.env.PREDICTIONGAME_ABI_JSON);
-      return parsed;
+      return { abi: parsed };
     } catch (e) {
       throw new Error("Invalid PREDICTIONGAME_ABI_JSON env var");
     }
@@ -58,10 +58,16 @@ function getAbi() {
 }
 
 function getContract(address, signerOrProvider) {
-  const abi = getAbi();
+  const { abi } = getArtifact();
   return new ethers.Contract(address, abi, signerOrProvider);
 }
 
-module.exports = { getProvider, getWallet, getContract };
+function getFactory(signer) {
+  const { abi, bytecode } = getArtifact();
+  if (!bytecode) throw new Error("Artifact bytecode missing. Recompile in blokdag.");
+  return new ethers.ContractFactory(abi, bytecode, signer);
+}
+
+module.exports = { getProvider, getWallet, getContract, getFactory };
 
 

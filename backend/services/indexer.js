@@ -1,6 +1,7 @@
 const { getProvider, getContract } = require("./ethers");
 const Guess = require("../models/Guess");
 const GameClosed = require("../models/GameClosed");
+const Round = require("../models/Round");
 
 async function getChainId(provider) {
   const { chainId } = await provider.getNetwork();
@@ -106,12 +107,21 @@ async function subscribe(contract) {
 
 async function initIndexer() {
   const provider = getProvider();
-  const address = process.env.PREDICTIONGAME_ADDRESS;
-  if (!address) throw new Error("PREDICTIONGAME_ADDRESS not set");
-  const contract = getContract(address, provider);
+  // Load all registered rounds/contracts from DB
+  const rounds = await Round.find({});
+  const addresses = rounds.length
+    ? rounds.map((r) => r.contract)
+    : (process.env.PREDICTIONGAME_ADDRESS ? [process.env.PREDICTIONGAME_ADDRESS] : []);
+  if (!addresses.length) {
+    console.log("No contracts to index. Set PREDICTIONGAME_ADDRESS or register rounds.");
+    return;
+  }
   const fromBlock = process.env.INDEX_FROM_BLOCK ? Number(process.env.INDEX_FROM_BLOCK) : 0;
-  await backfill(contract, fromBlock);
-  await subscribe(contract);
+  for (const addr of addresses) {
+    const contract = getContract(addr, provider);
+    await backfill(contract, fromBlock);
+    await subscribe(contract);
+  }
 }
 
 module.exports = { initIndexer };
