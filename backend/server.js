@@ -1,8 +1,8 @@
 const dotenv = require("dotenv");
 
-const app = require("./app");
-
 dotenv.config({ path: ".env.local" });
+
+const app = require("./app");
 
 const port = process.env.PORT || 3000;
 
