@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 @import "@fontsource/rubik";
 @import "@fontsource/rubik/400.css";
 @import "@fontsource/rubik/700.css";
@@ -8,9 +9,16 @@
 
 body {
   font-family: "Rubik", sans-serif;
+  /* background-color: #313131; */
 }
 
 @theme {
   --color-midnight: #121063;
+  --color-lightBlue: #2d7df4;
   --color-middleGray: #eeeeee;
+  --color-primaryBlack: #0d1423;
+  --color-secondaryBlack: #0f1629;
+  /* --color-lightBlue: #eff6ff; */
+  --color-gradientBlue: #3e8aff;
+  --color-gradientPurple: #8c4eff;
 }

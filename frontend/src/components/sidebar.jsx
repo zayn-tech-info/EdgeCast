@@ -22,29 +22,29 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     },
     {
       id: 2,
-      path: `/stock`,
-      link: "Stock",
-      text: "Stock",
+      path: `/predictions`,
+      link: "Predictions",
+      text: "Predictions",
       icon: <MdInsertChartOutlined />,
     },
     {
       id: 3,
-      path: `/favourites`,
-      link: "Favourites",
-      text: "Favourites",
+      path: `/watchlist`,
+      link: "Watchlist",
+      text: "Watchlist",
       icon: <CiBookmark />,
     },
     {
       id: 4,
-      path: `/wallets`,
-      link: "Wallets",
-      text: "Wallets",
+      path: `/wallet`,
+      link: "Wallet",
+      text: "Wallet",
       icon: <CiWallet />,
     },
   ];
   return (
     <aside
-      className={`fixed top-0 left-0  h-full bg-white border-[1px] border-gray-200 text-black w-64 transform ${
+      className={`fixed top-0 left-0  h-full bg-white dark:bg-primaryBlack dark:text-white border-r-[1px] dark:border-r-primaryBlack border-r-gray-200 text-black w-64 transform ${
         isOpen ? "translate-x-0" : "-translate-x-64"
       } transition-transform lg:translate-x-0 lg:w-64 z-50`}
     >
@@ -74,8 +74,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               <NavLink
                 to={menu?.path}
                 className={({ isActive }) =>
-                  `cursor-pointer  mx-3 h-12 flex px-3 items-center gap-2 rounded-sm ${
-                    isActive ? " text-white bg-[#000000]" : "text-[#000000] "
+                  `cursor-pointer  mx-3 h-12 flex px-3 mb-1 items-center hover:bg-blue-400 hover:text-white gap-2 transition-colors duration-300 ease-in-out rounded-md ${
+                    isActive
+                      ? " bg-lightBlue dark:bg-lightBlue text-white"
+                      : "text-[#000000] dark:text-white "
                   }`
                 }
                 key={menu?.id}
@@ -86,7 +88,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             ))}
           </div>
           <div
-            className="text-[#0F2E0E] cursor-pointer mx-3 flex items-center gap-2"
+            className="text-secondaryBlack dark:text-white cursor-pointer mx-3 flex items-center gap-2"
             onClick={logout}
           >
             <CiLogout />
